@@ -1,5 +1,5 @@
 /*
- * This C++ program checks if the credit card is valid and it outputs the brand of the credit card.
+ * This C++ program checks if the credit card is valid (checks file) and it outputs the brand of the credit card.
  */
 #include <iostream> // input and output 
 #include <fstream> // read and write from files
