@@ -1,0 +1,71 @@
+/*
+ * This C++ program checks if the credit card is valid and it outputs the brand of the credit card.
+ */
+#include <iostream> // input and output 
+#include <fstream> // read and write from files
+#include <iomanip> // formatting the output
+
+using namespace std;
+
+string brand(string z){
+    if(z.at(0)=='4'){ // checking if the first number is 4. if it is then it returns "Visa"
+        return "Visa";
+    }
+    else if(z.at(0)=='3'){ // checking if the first number is 3. if it is then it returns "American Express"
+        return "American Express";
+    }
+    else if(z.at(0)=='6'){ // checking if the first number is 6. if it is then it returns "Discover"
+        return "Discover";
+    }
+    else{ // returns empty string if no cases apply
+        return "";
+    }
+}
+
+bool is_valid(string number)
+{
+int sum = 0; // empty integer to store data
+int partsum; // naming an integer 
+for (int i =0; i< number.length();++i) //iterates until it checks the full string
+    { 
+        //cout<<"The " <<i+1<<" number is : "<< number[i]<<endl;
+        if ((i)%2==0) //checks if the number is divisible by 2 without a remainder
+        {
+            partsum = ((int(number[i]) - 48)*2); //subtracts everynumbers from the string and multiples by 2
+            if (partsum>= 10) // checks if double is 2 digit 
+            {
+                partsum = partsum - 9; // subtracts the numbers in the string by 9
+            }
+            //cout<<"Sum is = "<<sum<<" + "<<partsum<<" : "<<sum+partsum<<endl;
+            sum+= partsum; //stores partsum to sum integer
+        }
+        else
+        { // if the modulus isn't 0, then it subtracts the numbers in the string by 48 and stores them to the sum integer
+            sum += (int(number[i]) - 48); 
+            //cout<<"Sum is = "<<sum<<endl;
+        }
+    }
+return ((sum%10)==0); //checks if th number is divisible by 10. if it is then it's valid
+}
+
+int main() { //main function
+    string name;//declaring name as a string
+    ifstream in; // read file
+    ofstream out; //output file
+
+    out.open("output.txt");
+    cout<<"Enter the name of the file:"; //asking for user input
+    cin>>name; //storing user input data to a string
+    in.open(name); // opening the file
+
+    if(in.is_open())//checking if the file is open
+    {
+        string z; //declaring a string to read the full list of the numbers
+        while (in >> z) //reading numbers
+        { // outputs card number, brand, and validity into columns and outputs it to "output.txt" file
+            out << left << setw(20) << z << left << setw(20) << brand(z) << (is_valid(z) ? "Valid" : "Invalid") << endl;
+        }
+    in.close(); //closing the stream
+    return 0;
+}
+}
